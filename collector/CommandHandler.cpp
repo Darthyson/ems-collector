@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include "CommandHandler.h"
+#include "Options.h"
 
 CommandHandler::CommandHandler(boost::asio::io_service& ios,
 			       EmsCommandSender& sender,
@@ -101,6 +102,7 @@ CommandConnection::handleRequest(const boost::system::error_code& error)
     }
 
     std::istream requestStream(&m_request);
+
     ApiCommandParser::CommandResult result = m_request.size() > 2
 	    ? m_parser.parse(requestStream) : ApiCommandParser::InvalidCmd;
 

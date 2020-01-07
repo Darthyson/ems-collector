@@ -62,6 +62,13 @@ ApiCommandParser::parse(std::istream& request)
 
     std::string category;
     request >> category;
+	
+
+    
+    DebugStream& debug = Options::commandDebug();
+    if (debug) {
+	debug << "COMMAND: Got Command " << category << " ";
+    }
 
     if (category == "help") {
 	output("Available commands (help with '<command> help'):\n"
@@ -424,7 +431,10 @@ ApiCommandParser::handleCacheCommand(std::istream& request)
 {
     std::string cmd;
     request >> cmd;
-
+    DebugStream& debug = Options::commandDebug();
+    if (debug) {
+	debug << cmd << std::endl;
+    }
     if (m_cache) {
 	if (cmd == "help") {
 	    output("Available subcommands:\n"
@@ -440,6 +450,9 @@ ApiCommandParser::handleCacheCommand(std::istream& request)
 		request >> token;
 		if (!token.empty()) {
 		    selector.push_back(token);
+			if (debug) {
+			debug << token << std::endl;
+			}
 		}
 	    }
 
@@ -458,6 +471,11 @@ ApiCommandParser::handleHkCommand(std::istream& request, uint8_t type)
 {
     std::string cmd;
     request >> cmd;
+
+    DebugStream& debug = Options::commandDebug();
+    if (debug) {
+	debug << cmd << std::endl;
+    }
 
     if (cmd == "help") {
 	output("Available subcommands:\n"
@@ -782,7 +800,10 @@ ApiCommandParser::handleWwCommand(std::istream& request)
 {
     std::string cmd;
     request >> cmd;
-
+    DebugStream& debug = Options::commandDebug();
+    if (debug) {
+	debug << cmd << std::endl;
+    }
     if (cmd == "help") {
 	output("Available subcommands:\n"
 	        "mode [on|off|auto]\n"
