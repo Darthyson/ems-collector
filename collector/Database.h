@@ -19,6 +19,7 @@
 
 #ifndef __DATABASE_H__
 #define __DATABASE_H__
+#define MYSQLPP_MYSQL_HEADERS_BURIED
 
 #include <map>
 #include <queue>
@@ -64,7 +65,10 @@ class Database {
 	    SensorWaermetauscherTemp = 25,
 	    SensorWarmwasserDurchfluss = 26,
 	    SensorSolarSpeicherTemp = 27,
-	    SensorSolarKollektorTemp = 28
+	    SensorSolarKollektorTemp = 28,
+		SensorMischerMM2IstTemp = 29,
+		SensorMischerMM2SollTemp = 30,
+		SensorMischerMM2steuerung = 31
 	} NumericSensors;
 
 	typedef enum {
@@ -92,8 +96,9 @@ class Database {
 	    SensorWWTagbetrieb = 112,
 	    SensorSommerbetrieb = 113,
 	    SensorSolarPumpe = 125,
+		SensorMischerMM2PumpeAktiv = 126,
 	    /* not valid for DB */
-	    BooleanSensorLast = 126
+	    BooleanSensorLast = 127
 	} BooleanSensors;
 
 	typedef enum {

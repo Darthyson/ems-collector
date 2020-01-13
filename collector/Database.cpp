@@ -24,7 +24,12 @@
 #include "Database.h"
 #include "Options.h"
 
-const char * Database::dbName = "ems_data";
+#ifdef DEBUG
+	const char * Database::dbName = "ems_data_debug";
+#else
+	const char * Database::dbName = "ems_data";
+#endif
+
 const char * Database::numericTableName = "numeric_data";
 const char * Database::booleanTableName = "boolean_data";
 const char * Database::stateTableName = "state_data";
@@ -251,6 +256,14 @@ Database::createSensorRows()
 		  "Solarspeicher-Ist-Temperatur", readingTypeTemperature, "°C", 1);
     query.execute(SensorSolarKollektorTemp, sensorTypeNumeric,
 		  "Solarkollektor-Ist-Temperatur", readingTypeTemperature, "°C", 1);
+    query.execute(SensorMischerMM2IstTemp, sensorTypeNumeric,
+		  "MM10-MischerMM2-Ist-Temperatur", readingTypeTemperature, "°C", 1);
+    query.execute(SensorMischerMM2SollTemp, sensorTypeNumeric,
+		  "MM10-MischerMM2-Soll-Temperatur", readingTypeTemperature, "°C", 1);
+    query.execute(SensorMischerMM2steuerung, sensorTypeNumeric,
+		  "MM10-MischerMM2-Steuerung", readingTypePercent, "%", 1);
+
+
 
     /* Boolean sensors */
     query.execute(SensorFlamme, sensorTypeBoolean, "Flamme");
@@ -276,6 +289,8 @@ Database::createSensorRows()
     query.execute(SensorHK2Ferien, sensorTypeBoolean, "HK2 Ferien");
     query.execute(SensorHK2Party, sensorTypeBoolean, "HK2 Party");
     query.execute(SensorSolarPumpe, sensorTypeBoolean, "Solar-Pumpe");
+    query.execute(SensorMischerMM2PumpeAktiv, sensorTypeBoolean, "MM10-MischerMM2 Pumpe aktiv");
+
 
     /* State sensors */
     query.execute(SensorServiceCode, sensorTypeState, "Servicecode");
@@ -346,7 +361,9 @@ Database::handleValue(const EmsValue& value)
 	{ EmsValue::IstTemp, EmsValue::Waermetauscher, SensorWaermetauscherTemp },
 	{ EmsValue::DurchflussMenge, EmsValue::WW, SensorWarmwasserDurchfluss },
 	{ EmsValue::IstTemp, EmsValue::SolarSpeicher, SensorSolarSpeicherTemp },
-	{ EmsValue::IstTemp, EmsValue::SolarKollektor, SensorSolarKollektorTemp }
+	{ EmsValue::IstTemp, EmsValue::SolarKollektor, SensorSolarKollektorTemp },
+	{ EmsValue::IstTemp, EmsValue::MM2, SensorMischerMM2IstTemp },
+	{ EmsValue::SollTemp, EmsValue::MM2, SensorMischerMM2SollTemp }
     };
 
     static const struct {
@@ -362,7 +379,8 @@ Database::handleValue(const EmsValue& value)
 	{ EmsValue::Mischersteuerung, EmsValue::HK2, SensorMischersteuerung },
 	{ EmsValue::IstModulation, EmsValue::Brenner, SensorMomLeistung },
 	{ EmsValue::SollModulation, EmsValue::Brenner, SensorMaxLeistung },
-	{ EmsValue::IstModulation, EmsValue::KesselPumpe, SensorPumpenModulation }
+	{ EmsValue::IstModulation, EmsValue::KesselPumpe, SensorPumpenModulation },
+	{ EmsValue::Mischersteuerung, EmsValue::MM2, SensorMischerMM2steuerung }
     };
 
     static const struct {
