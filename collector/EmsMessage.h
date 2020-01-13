@@ -232,7 +232,11 @@ class EmsValue {
 	    Solar,
 	    SolarPumpe,
 	    SolarSpeicher,
-	    SolarKollektor
+	    SolarKollektor,
+		MM1,
+		MM2,
+		MM3,
+		MM4
 	};
 
 	enum ReadingType {
@@ -383,16 +387,35 @@ class EmsMessage
 	    return offset >= m_offset && offset + size <= m_offset + m_data.size();
 	}
 	EmsValue::SubType determineHKFromAddress(uint8_t address) {
-	    if (address == EmsProto::addressRC2xHK2 || address == EmsProto::addressMM10HK2) {
+	    if (address == EmsProto::addressRC2xHK1 || address == EmsProto::addressMM10HK1) {
+		return EmsValue::HK1;
+	    }
+		if (address == EmsProto::addressRC2xHK2 || address == EmsProto::addressMM10HK2) {
 		return EmsValue::HK2;
 	    }
-	    if (address == EmsProto::addressRC2xHK3 || address == EmsProto::addressMM10HK4) {
+	    if (address == EmsProto::addressRC2xHK3 || address == EmsProto::addressMM10HK3) {
 		return EmsValue::HK3;
 	    }
 	    if (address == EmsProto::addressRC2xHK4 || address == EmsProto::addressMM10HK4) {
 		return EmsValue::HK4;
 	    }
-	    return EmsValue::HK1;
+	    return EmsValue::None;
+	}
+
+	EmsValue::SubType determineMMFromAddress(uint8_t address) {
+	    if (address == EmsProto::addressMM10HK1) {
+		return EmsValue::MM1;
+	    }
+		if (address == EmsProto::addressMM10HK2) {
+		return EmsValue::MM2;
+	    }
+	    if (address == EmsProto::addressMM10HK3) {
+		return EmsValue::MM3;
+	    }
+	    if (address == EmsProto::addressMM10HK4) {
+		return EmsValue::MM4;
+	    }
+	    return EmsValue::None;
 	}
 
     private:

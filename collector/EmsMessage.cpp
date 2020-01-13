@@ -312,7 +312,7 @@ EmsMessage::handle()
 	case EmsProto::addressMM10HK4:
 	    /* MM10 message */
 	    switch (m_type) {
-		case 0xAB: parseMMTempMessage(determineHKFromAddress(m_source)); handled = true; break;
+		case 0xAB: parseMMTempMessage(determineMMFromAddress(m_source)); handled = true; break;
 	    }
 	    break;
 	case EmsProto::addressSM10:
