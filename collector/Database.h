@@ -68,7 +68,10 @@ class Database {
 	    SensorSolarKollektorTemp = 28,
 		SensorMischerMM2IstTemp = 29,
 		SensorMischerMM2SollTemp = 30,
-		SensorMischerMM2steuerung = 31
+		SensorMischerMM2steuerung = 31,
+		SensorMischerRC_MM2SollTemp = 32,
+		SensorMischerRC_MM2steuerung = 33,
+		SensorMischerRC_MM2flags = 34
 	} NumericSensors;
 
 	typedef enum {

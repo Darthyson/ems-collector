@@ -238,6 +238,7 @@ EmsMessage::handle()
 		case 0x07:
 		    /* yet unknown contents:
 		     * 0x8 0x0 0x7 0x0 0x3 0x3 0x0 0x2 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 */
+			handled = true;
 		    break;
 		case 0x10:
 		case 0x11:
@@ -259,7 +260,8 @@ EmsMessage::handle()
 	    switch (m_type) {
 		case 0x29:
 		    /* yet unknown: 0x9 0x10 0x29 0x0 0x6b */
-		    break;
+			handled = true;
+			break;
 	    }
 	    break;
 	case EmsProto::addressRC3x:
@@ -282,10 +284,10 @@ EmsMessage::handle()
 		case 0x5C: parseRCHKMonitorMessage(EmsValue::HK4); handled = true; break;
 		case 0x5D: parseRCHKScheduleMessage(EmsValue::HK4); handled = true; break;
 		case 0x9D: /* command for WM10 */ handled = true; break;
-		case 0xA2: /* unknown, 11 zeros */ break;
+		case 0xA2: /* unknown, 11 zeros */ handled = true; break;
 		case 0xA3: parseRCOutdoorTempMessage(); handled = true; break;
 		case 0xA5: parseRCSystemParameterMessage(); handled = true; break;
-		case 0xAC: /* command for MM10 */ handled = true; break;
+		case 0xAC: parseRCMM10Parameter1Message(determineRC_MMFromAddress(m_dest)); handled = true; break; /* parameter command for MM10 see https://emswiki.thefischer.net/doku.php?id=wiki:ems:telegramme#mm10parameter*/
 	    }
 	    break;
 	case EmsProto::addressRC2xStandalone:
@@ -539,6 +541,14 @@ EmsMessage::parseRCSystemParameterMessage()
     parseNumeric(5, 1, 1, EmsValue::MinTemp, EmsValue::RC);
     parseEnum(6, EmsValue::GebaeudeArt, EmsValue::RC);
     parseBool(21, 1, EmsValue::ATDaempfung, EmsValue::RC);
+}
+
+void
+EmsMessage::parseRCMM10Parameter1Message(EmsValue::SubType subtype)
+{
+    parseNumeric(0, 1, 1, EmsValue::SollTemp, subtype);
+    parseInteger(1, 1, EmsValue::Mischersteuerung, subtype);
+    parseInteger(2, 1, EmsValue::MM_Flags, subtype);
 }
 
 void

@@ -263,7 +263,13 @@ Database::createSensorRows()
     query.execute(SensorMischerMM2steuerung, sensorTypeNumeric,
 		  "MM10-MischerMM2-Steuerung", readingTypePercent, "%", 1);
 
+    query.execute(SensorMischerRC_MM2SollTemp, sensorTypeNumeric,
+		  "RC-MischerMM2-Soll-Temperatur", readingTypeTemperature, "°C", 1);
 
+    query.execute(SensorMischerRC_MM2steuerung, sensorTypeNumeric,
+		  "RC-MischerMM2-Steuerung", readingTypePercent, "%", 1);
+    query.execute(SensorMischerRC_MM2flags, sensorTypeNumeric,
+		  "RC-MischerMM2-Flags", readingTypeNone, "", 1);
 
     /* Boolean sensors */
     query.execute(SensorFlamme, sensorTypeBoolean, "Flamme");
@@ -363,7 +369,8 @@ Database::handleValue(const EmsValue& value)
 	{ EmsValue::IstTemp, EmsValue::SolarSpeicher, SensorSolarSpeicherTemp },
 	{ EmsValue::IstTemp, EmsValue::SolarKollektor, SensorSolarKollektorTemp },
 	{ EmsValue::IstTemp, EmsValue::MM2, SensorMischerMM2IstTemp },
-	{ EmsValue::SollTemp, EmsValue::MM2, SensorMischerMM2SollTemp }
+	{ EmsValue::SollTemp, EmsValue::MM2, SensorMischerMM2SollTemp },
+	{ EmsValue::SollTemp, EmsValue::RC_MM2, SensorMischerRC_MM2SollTemp },
     };
 
     static const struct {
@@ -380,7 +387,9 @@ Database::handleValue(const EmsValue& value)
 	{ EmsValue::IstModulation, EmsValue::Brenner, SensorMomLeistung },
 	{ EmsValue::SollModulation, EmsValue::Brenner, SensorMaxLeistung },
 	{ EmsValue::IstModulation, EmsValue::KesselPumpe, SensorPumpenModulation },
-	{ EmsValue::Mischersteuerung, EmsValue::MM2, SensorMischerMM2steuerung }
+	{ EmsValue::Mischersteuerung, EmsValue::MM2, SensorMischerMM2steuerung },
+	{ EmsValue::Mischersteuerung, EmsValue::RC_MM2, SensorMischerRC_MM2steuerung },
+	{ EmsValue::MM_Flags, EmsValue::RC_MM2, SensorMischerRC_MM2flags },
     };
 
     static const struct {

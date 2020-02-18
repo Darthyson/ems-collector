@@ -210,6 +210,7 @@ class EmsValue {
 	    /* state */
 	    ServiceCode,
 	    FehlerCode,
+		MM_Flags,
 	};
 
 	enum SubType {
@@ -236,7 +237,11 @@ class EmsValue {
 		MM1,
 		MM2,
 		MM3,
-		MM4
+		MM4,
+		RC_MM1,
+		RC_MM2,
+		RC_MM3,
+		RC_MM4,
 	};
 
 	enum ReadingType {
@@ -359,6 +364,7 @@ class EmsMessage
 	void parseRCHKOpmodeMessage(EmsValue::SubType subType);
 	void parseRCHKScheduleMessage(EmsValue::SubType subType);
 	void parseRC20StatusMessage(EmsValue::SubType subType);
+	void parseRCMM10Parameter1Message(EmsValue::SubType subtype);
 
 	void parseWMTemp1Message();
 	void parseWMTemp2Message();
@@ -414,6 +420,22 @@ class EmsMessage
 	    }
 	    if (address == EmsProto::addressMM10HK4) {
 		return EmsValue::MM4;
+	    }
+	    return EmsValue::None;
+	}
+
+	EmsValue::SubType determineRC_MMFromAddress(uint8_t address) {
+	    if (address == EmsProto::addressMM10HK1) {
+		return EmsValue::RC_MM1;
+	    }
+		if (address == EmsProto::addressMM10HK2) {
+		return EmsValue::RC_MM2;
+	    }
+	    if (address == EmsProto::addressMM10HK3) {
+		return EmsValue::RC_MM3;
+	    }
+	    if (address == EmsProto::addressMM10HK4) {
+		return EmsValue::RC_MM4;
 	    }
 	    return EmsValue::None;
 	}

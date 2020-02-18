@@ -228,7 +228,9 @@ printDescriptive(std::ostream& stream, const EmsValue& value)
 	{ EmsValue::Wartungstermin, "Wartungstermin" },
 
 	{ EmsValue::ServiceCode, "Servicecode" },
-	{ EmsValue::FehlerCode, "Fehlercode" }
+	{ EmsValue::FehlerCode, "Fehlercode" },
+	{ EmsValue::MM_Flags, "MM_Flags" }
+
     };
     static const std::map<EmsValue::SubType, const char *> SUBTYPEMAPPING = {
 	{ EmsValue::HK1, "HK1" },
